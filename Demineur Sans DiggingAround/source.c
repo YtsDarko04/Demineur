@@ -3,25 +3,24 @@
 #include <time.h>
 #include <windows.h>
 
-#define row 3
-#define col 3
-#define bomb 1
+#define row 9
+#define col 9
+#define bomb 9
 #define BOMB 9
 
 
 typedef struct Cell
 {
 	int status; // 0 � 9 (9 == BOMB)
-	int hidden; //0 si d�couvert 1 si cach�
-	int flag; //0 si plac� 1 si pas de drapeau
-	int secure; //0 si case securis� 1 si case non securis�
+	int hidden; //0 si decouvert 1 si cache
+	int flag; //0 si place 1 si pas de drapeau
+	int secure; //0 si case securise 1 si case non securise
 
 } Cell;
 
+
 //////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////
-
-
 
 void createTable(Cell grid[row][col])
 {
@@ -144,9 +143,27 @@ void afficherBomb(int nGrid, Cell grid[row][col])
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////
+void victory(int nGrid, Cell grid[row][col], int* win)
+{
+	int count = *win;
+	int i, j;
+	for (i = 0; i < row; i++)
+	{
+		for (j = 0; j < col; j++)
+		{
+			if (grid[i][j].status != 9 && grid[i][j].hidden == 0)
+			{
+				count -= 1;
+				if (count == 0)
+				{
+					*win = 0;
+				}
+			}
+		}
+	}
+}
 
-
-void flagTime(int nGrid, Cell grid[row][col], int* win)
+void flagTime(int nGrid, Cell grid[row][col])
 {
 	system("CLS");
 	afficherJeu(nGrid, grid);
@@ -173,10 +190,6 @@ void flagTime(int nGrid, Cell grid[row][col], int* win)
 		{
 			grid[fRow - 1][fCol - 1].hidden = 0;
 			grid[fRow - 1][fCol - 1].flag = 0;
-			if (grid[fRow - 1][fCol - 1].status == BOMB)
-			{
-				*win -= 1;
-			}
 			system("CLS");
 			afficherJeu(nGrid, grid);
 		}
@@ -214,6 +227,12 @@ void diggingTime(int nGrid, Cell grid[row][col], int* vie, char replay)
 			afficherJeu(nGrid, grid);
 			printf("\nCase %d %d deja revele\n\n", dRow, dCol);
 		}
+		else if (grid[dRow - 1][dCol - 1].flag == 0)
+		{
+			system("CLS");
+			afficherJeu(nGrid, grid);
+			printf("\nCase %d %d securiser par un drapeau\n\n", dRow, dCol);
+		}
 		else
 		{
 			grid[dRow - 1][dCol - 1].hidden = 0;
@@ -230,9 +249,8 @@ void diggingTime(int nGrid, Cell grid[row][col], int* vie, char replay)
 	}
 }
 
-void playingTime(int nGrid, Cell grid[row][col], int vie, int win, char replay)
+void playingTime(int nGrid, Cell grid[row][col], int vie, int* win, char replay)
 {
-
 	system("CLS");
 	afficherJeu(nGrid, grid);
 	int cMove;
@@ -249,16 +267,17 @@ void playingTime(int nGrid, Cell grid[row][col], int vie, int win, char replay)
 
 		if (cMove == 1)
 		{
-			flagTime(nGrid, grid, &win);
+			flagTime(nGrid, grid);
+		}
+		else if (cMove == 2)
+		{
+			diggingTime(nGrid, grid, &vie, replay);
+			victory(nGrid, grid, &win);
 			if (win == 0)
 			{
 				vie = 0;
 				printf("Bien jouer terrain deminer !\n\n");
 			}
-		}
-		else if (cMove == 2)
-		{
-			diggingTime(nGrid, grid, &vie, replay);
 		}
 		else
 		{
@@ -267,19 +286,15 @@ void playingTime(int nGrid, Cell grid[row][col], int vie, int win, char replay)
 		}
 	}
 }
-
 //////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////
-
-
 int main()
 {
 	srand((unsigned int)time(NULL));
 	int vie = 1;
 	Cell grid[row][col];
 	int nGrid = 1;
-	int win = bomb; //nombre de cases sans bombe
-
+	int win = row * col - bomb; //nombre de cases sans bombe
 
 	char replay = 'y';
 	while (replay == 'y')
