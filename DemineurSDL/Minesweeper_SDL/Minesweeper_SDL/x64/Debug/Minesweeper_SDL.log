@@ -1,0 +1,9 @@
+﻿  source.c
+E:\Microsoft Visual Studio\Repos\Finkfo\Minesweeper_SDL\Minesweeper_SDL\source.c(226,28): warning C4047: 'fonction' : les niveaux d'indirection de 'SDL_Texture *' et de 'SDL_Texture **' sont différents
+E:\Microsoft Visual Studio\Repos\Finkfo\Minesweeper_SDL\Minesweeper_SDL\source.c(226,21): warning C4024: 'SDL_DestroyTexture' : types différents pour le paramètre formel et réel 1
+E:\Microsoft Visual Studio\Repos\Finkfo\Minesweeper_SDL\Minesweeper_SDL\source.c(229,26): warning C4028: paramètre formel 2 différent de la déclaration
+E:\Microsoft Visual Studio\Repos\Finkfo\Minesweeper_SDL\Minesweeper_SDL\source.c(241,22): warning C4047: 'fonction' : les niveaux d'indirection de 'SDL_Renderer *' et de 'SDL_Renderer **' sont différents
+E:\Microsoft Visual Studio\Repos\Finkfo\Minesweeper_SDL\Minesweeper_SDL\source.c(241,13): warning C4024: 'tabTexture' : types différents pour le paramètre formel et réel 1
+E:\Microsoft Visual Studio\Repos\Finkfo\Minesweeper_SDL\Minesweeper_SDL\source.c(242,23): warning C4047: 'fonction' : les niveaux d'indirection de 'SDL_Renderer *' et de 'SDL_Renderer **' sont différents
+E:\Microsoft Visual Studio\Repos\Finkfo\Minesweeper_SDL\Minesweeper_SDL\source.c(242,14): warning C4024: 'displayGrid' : types différents pour le paramètre formel et réel 1
+  Minesweeper_SDL.vcxproj -> E:\Microsoft Visual Studio\Repos\Finkfo\Minesweeper_SDL\x64\Debug\Minesweeper_SDL.exe
